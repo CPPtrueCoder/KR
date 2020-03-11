@@ -19,7 +19,7 @@ Model_Arenstorf::run() {
     for (int i = 0; i < size; i++) {
         result_list[i] = new long double[n + 1];
     }
-    Integrator_Dormand_Prince integrator(1e-2, 1e-2, 1e-16, 1e-16, n, 0.01, size);
+    Integrator_Dormand_Prince integrator(1e-2, 1e-8, 1e-16, 1e-16, n, 0.01, size);
     time = clock();
     long double* result = integrator.integration(t_start, t_finish, this);
     time = (clock() - time) / CLOCKS_PER_SEC;
@@ -27,7 +27,9 @@ Model_Arenstorf::run() {
     for (int i = 0; i < n; i++) {
         std::cout << result[i] << std::endl;
     }
-    plotter(0, 1, size);
+    plotter(11, 9, size);
+
+
     integrator.~Integrator_Dormand_Prince();
 }
 
@@ -35,19 +37,19 @@ void
 Model_Arenstorf::function(long double* ind, long double* dep,
         long double* step_result) {
  // 1 in right parts ~R0;
-
-    step_result[0] =(dep[2]-Ic-dep[3])/C2;
-    std::cout<<"st_res 0 "<<step_result[0]<<std::endl;
+    Ic= k_B*CalculateCoefficientIb(dep[1]);
+    step_result[0] =(dep[2]-Ic-dep[3])/C1;
+    //std::cout<<"st_res 0 "<<step_result[7]<<std::endl;
     step_result[1]=((Ve-dep[1])/Re -dep[2]-CalculateCoefficientIb(dep[1]))/C2;
     step_result[2]=(Vc-dep[0]-Rl*dep[2]+dep[1])/L;
     step_result[3]=dep[4];
-    step_result[4]=((dep[2]+Ic)/C1+dep[5]/C0-1*dep[4]-(1/C+1/C0+1/C1)*dep[3])/L0;
+    step_result[4]=((dep[2]+Ic)/C1+dep[5]/C0-R0*dep[4]-(1/C+1/C0+1/C1)*dep[3])/L0;
     step_result[5]=dep[6];
-    step_result[6]=((dep[3]+dep[7])/C0-1*dep[6]-(1/C+2/C0)*dep[5])/L0;
+    step_result[6]=((dep[3]+dep[7])/C0-R0*dep[6]-(1/C+2/C0)*dep[5])/L0;
     step_result[7]=dep[8];
-    step_result[8]=((dep[5]+dep[9])/C0-(1/C+2/C0)*dep[7]-1*dep[8])/L0;
+    step_result[8]=((dep[5]+dep[9])/C0-(1/C+2/C0)*dep[7]-R0*dep[8])/L0;
     step_result[9]=dep[10];
-    step_result[10]=(dep[7]/C0-(1/C+2/C0)*dep[9]-1*dep[10])/L0;
+    step_result[10]=(dep[7]/C0-(1/C+2/C0)*dep[9]-R0*dep[10])/L0;
 
 }
 

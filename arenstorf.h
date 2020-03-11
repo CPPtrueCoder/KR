@@ -14,16 +14,16 @@ public:
     start_conditions)
             : Object(11, start_conditions) {
         Vthr = 0.75;
-        C1 = C2 = C0 = 70e-12;
-        C = 140e-12;
-        L = 0.000001;
+        C1 = C2 = C0 = 70;
+        C = 140;
+        L = 1;
         alpha = 1 / 70;
         Vc=Ve=20;
         Rl=95;
-        Re=2.4*1000;
-        L0=0.000002;
+        Re=2.4;
+        L0=5e-6;
         k_B = 20;
-        R0=1e-6;
+        R0=1;
         Ic=0;
 
     };
